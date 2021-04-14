@@ -144,7 +144,7 @@ fc-cache -fv
 ## Shellstarterkit equivalent
 TODO: send this to https://github.com/blairw/shellstarterkit/
 
-- Install the Cascadia font, set it in VSC
+- Install the Cascadia font (`sudo dnf install -y cascadia-fonts-all`) set it in VSC
 
 - Some Terminal commands:
 ```zsh
