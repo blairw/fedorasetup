@@ -151,7 +151,11 @@ TODO: send this to https://github.com/blairw/shellstarterkit/
 sudo dnf install -y zsh
 touch ~/.zshrc
 chsh -s /bin/zsh
-/bin/zsh
+```
+
+- Then log out and log back in, then:
+
+```zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 curl https://raw.githubusercontent.com/blairw/shellstarterkit/master/resources/dot-p10k.zsh -o ~/.p10k.zsh
