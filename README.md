@@ -55,10 +55,10 @@ fc-cache -fv
 1. Complete these steps from http://ctrl.blog/entry/fedora-hibernate.html which are required:
 
 	- The step involving `dracut`
-	- The `/etc/systemd/sleep.conf` step
+	- The `/etc/systemd/sleep.conf` step, but uncommenting these 3 lines:
 		```
 		AllowHibernation=yes
-		HibernateMode=shutdown
+		HibernateMode=platform shutdown
 		HibernateState=disk
 		```
 2. Swap file setup as per below based on https://superuser.com/questions/1581885/btrfs-luks-swapfile-how-to-hibernate-on-swapfile/1613639#1613639
