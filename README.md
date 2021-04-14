@@ -139,3 +139,27 @@ fc-cache -fv
 		```
 
 	- (Part 5) Reboot and then try to hibernate using `systemctl hibernate`
+
+
+## Shellstarterkit equivalent
+TODO: send this to https://github.com/blairw/shellstarterkit/
+
+- Install the Cascadia font, set it in VSC
+
+- Some Terminal commands:
+```zsh
+sudo dnf install -y zsh
+touch ~/.zshrc
+chsh -s /bin/zsh
+/bin/zsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+curl https://raw.githubusercontent.com/blairw/shellstarterkit/master/resources/dot-p10k.zsh -o ~/.p10k.zsh
+code ~/.zshrc
+```
+
+In `~/.zshrc`:
+- `ZSH_THEME="powerlevel10k/powerlevel10k"`
+- `plugins=(git virtualenv)`
+- End of file: `[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh`
+```
