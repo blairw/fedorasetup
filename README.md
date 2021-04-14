@@ -11,6 +11,12 @@ sudo dnf install -y screen gnome-do audacity gimp redshift geany geany-themes gi
 Some notes:
 - Use command-line `redshift` because `redshift-gtk` doesn't seem to do what it is supposed to (no tray icon, runs in background)
 
+## Git / GitHub credential saver
+As per https://unix.stackexchange.com/questions/379272/storing-username-and-password-in-git
+```zsh
+git config credential.helper store
+```
+
 ## Install some software manually (Dropbox, NetBeans, Edge, VSC, Teams)
 Do Dropbox first so that it can start fetching your files in the background.
 - https://www.dropbox.com/install-linux
