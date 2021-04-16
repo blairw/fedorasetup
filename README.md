@@ -1,52 +1,97 @@
-# Fedora Linux setup notes by Blair
+# Fedora Linux workstation setup notes by Blair
 
 ## Contents
 
-- [Fedora Linux setup notes by Blair](#fedora-linux-setup-notes-by-blair)
+<!-- TOC STARTS HERE -->
+
+- [Fedora Linux workstation setup notes by Blair](#fedora-linux-workstation-setup-notes-by-blair)
   * [Contents](#contents)
-  * [Basic Information](#basic-information)
-  * [Get the latest updates and get useful packages](#get-the-latest-updates-and-get-useful-packages)
-  * [Git / GitHub credential saver](#git---github-credential-saver)
-  * [Install some software manually (Dropbox, NetBeans, Edge, VSC, Teams)](#install-some-software-manually--dropbox--netbeans--edge--vsc--teams-)
-  * [Install Spotify via Flatpak](#install-spotify-via-flatpak)
-  * [Enable rpmfusion for Handbrake, VLC](#enable-rpmfusion-for-handbrake--vlc)
-  * [GUI configuration](#gui-configuration)
-  * [Setup folder for custom fonts](#setup-folder-for-custom-fonts)
-  * [Replicate pbcopy](#replicate-pbcopy)
-  * [Passwordsafe3 support with Pasaffe](#passwordsafe3-support-with-pasaffe)
-  * [Enable Swapfile and Hibernation](#enable-swapfile-and-hibernation)
-  * [Shellstarterkit equivalent](#shellstarterkit-equivalent)
+  * [Rationale](#rationale)
+    + [Rationale for Linux as a workstation environment](#rationale-for-linux-as-a-workstation-environment)
+    + [Rationale for Fedora Linux in particular](#rationale-for-fedora-linux-in-particular)
+  * [Setup tasks for Blair's workstation environment](#setup-tasks-for-blair-s-workstation-environment)
+    + [Get the latest updates and get useful packages](#get-the-latest-updates-and-get-useful-packages)
+    + [Git / GitHub credentials saver](#git---github-credentials-saver)
+    + [Install some software manually (Dropbox etc)](#install-some-software-manually--dropbox-etc-)
+    + [Install Spotify via Flatpak](#install-spotify-via-flatpak)
+    + [Enable rpmfusion for Handbrake and VLC](#enable-rpmfusion-for-handbrake-and-vlc)
+    + [GUI configuration](#gui-configuration)
+    + [Setup folder for custom fonts](#setup-folder-for-custom-fonts)
+    + [Replicate pbcopy](#replicate-pbcopy)
+    + [Passwordsafe3 support with Pasaffe](#passwordsafe3-support-with-pasaffe)
+    + [Enable Swapfile and Hibernation](#enable-swapfile-and-hibernation)
+    + [Shellstarterkit equivalent](#shellstarterkit-equivalent)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
+<!-- TOC ENDS HERE -->
 
-## Basic Information
-- Last updated for Fedora 33
+-----
 
-## Get the latest updates and get useful packages
+## Rationale
+
+This is mostly written for my own notes so that I remember why I did this.
+
+### Rationale for Linux as a workstation environment
+
+To be honest, my preferred workstation environment is actually macOS. I also sometimes need to use Windows for very specific tasks involving software that only works properly on Windows.
+
+However, what I have learnt over years of working in tech (including tech-related academic work) is that it is useful to challenge myself to work entirely in Linux at least somewhat regularly. From a skills perspective, working in Linux forces me to stay competent with *nix-based sysadmin, bash/zsh, Python, etc. From a workflow perspective, working in Linux acts as a mild but non-trivial deterrant against overreliance on commercial software packages. I have nothing against commercial software packages but in general find that most of them are prone to at least one of the following:
+
+- Ongoing licensing costs
+- Planned obsolescence
+- Increasing slowness (cf. [Wirth's Law](https://en.wikipedia.org/wiki/Wirth%27s_law))
+
+In practice, I will probably rely on a [bricolage](https://en.wikipedia.org/wiki/Bricolage#Information_systems) of web-based, Mac, Windows and Linux solutions.
+
+### Rationale for Fedora Linux in particular
+
+Having tried, at various stages over the past decade, a range of distros (incl. Ubuntu, Debian, elementaryOS, Linux Mint, Arch, Antergos, OpenSUSE, CentOS, Oracle Linux, RHEL), I keep coming back to Fedora because of a few very specific things:
+
+1. The Fedora installer automates the setup of LUKS **full-disk encryption** and the boot screen where you enter your disk password which is clean and elegant. (Full-disk encryption is very important to me due to the sensitive data that I often work with.)
+
+2. Understanding the overall sysadmin process is useful due to the **market dominance of RHEL and rpm-based derivatives** like CentOS / Oracle Linux / etc. This might be a bit of a question mark now with the CentOS Stream controversy but RHEL seems like it is so entrenched that it won't go away too soon. Arguably deb-based distros like Debian/Ubuntu are increasingly more relevant (crucially, Ubuntu is free on WSL, Fedora is not); but then I miss out on the above point re LUKS setup.
+
+3. It's somehow **both cutting-edge and stable**. Arch is more cutting-edge but I had a few issues with upgrades breaking things and not being able to find a fix since the rolling release model means that I can't find specific advice like "fedora 33 luks btfrs swap not working" because the concept of a "version 33" doesn't exist. Debian/CentOS/RHEL are more stable but then a lot of handy new stuff doesn't work.
+
+4. Fedora **MATE** is set up nicely. I use MATE (fork of GNOME 2) as basically a solution to Wirth's Law. Modern OS GUIs (macOS, Windows, even GNOME 3) are all subject to Wirth's Law, they're not as lean as they could be because they assume you have decent specs. I have decent specs but still would prefer speed over whatever fancy things are in macOS / Windows / GNOME 3. I was using GNOME 2 in 2008 on a budget Dell PC in my parents' apartment running with a slow IDE hard drive and a Pentium 4. It was fast even on that; it's lightning fast on my 2019 budget Acer laptop with an NVMe SSD and a Core i5.
+
+- **Hibernate actually works!** To be honest I almost gave up on Fedora because getting Hibernate to work on the wacky combination of LUKS, btrfs and zram replacing swap was a pain. But apparently (cf. point 2), enough people on Fedora care about Hibernate that someone else already solved it (:
+
+---
+
+## Setup tasks for Blair's workstation environment
+
+Since this document is mostly for my own records, unless you are me, not everything below is certainly relevant for you. But maybe some of it is / maybe this might help someone else trying to get something working? (:
+
+### Get the latest updates and get useful packages
 ```zsh
 sudo dnf upgrade -y
-sudo dnf install -y screen gnome-do audacity gimp redshift geany geany-themes git aria2 MyPasswordSafe
+sudo dnf install -y screen gnome-do git aria2 \
+	geany geany-themes \
+	audacity gimp redshift MyPasswordSafe
 ```
 Some notes:
 - Use command-line `redshift` because `redshift-gtk` doesn't seem to do what it is supposed to (no tray icon, runs in background)
 
-## Git / GitHub credential saver
+### Git / GitHub credentials saver
 As per https://unix.stackexchange.com/questions/379272/storing-username-and-password-in-git
 ```zsh
 git config credential.helper store
 ```
 
-## Install some software manually (Dropbox, NetBeans, Edge, VSC, Teams)
+### Install some software manually (Dropbox etc)
 Do Dropbox first so that it can start fetching your files in the background.
 - https://www.dropbox.com/install-linux
 - https://computingforgeeks.com/how-to-install-netbeans-ide-on-fedora/
 - https://www.microsoftedgeinsider.com/en-us/download?platform=linux-rpm
 - https://code.visualstudio.com/docs/setup/linux
 - https://linuxhint.com/install-microsoft-teams-fedora/
+- https://slack.com/intl/en-au/downloads/instructions/fedora
+- https://github.com/ramboxapp/community-edition/releases/
 
-## Install Spotify via Flatpak
+### Install Spotify via Flatpak
 As per https://docs.fedoraproject.org/en-US/quick-docs/installing-spotify/ - I am using the Flatpak option because I found that `lpf-spotify-client` was not building on my machine.
 
 ```zsh
@@ -55,7 +100,9 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 sudo flatpak install flathub com.spotify.Client
 ```
 
-## Enable rpmfusion for Handbrake, VLC
+### Enable rpmfusion for Handbrake and VLC
+I know a lot of people who favour Linux for _libre_ rather than _gratis_ would not approve of rpmfusion but I'm just being pragmatic: I need Handbrake and VLC.
+
 Based on https://www.fosslinux.com/969/install-handbrake-fedora-22.htm
 
 ```zsh
@@ -64,7 +111,9 @@ sudo dnf install -y handbrake handbrake-gui
 sudo dnf install -y vlc
 ```
 
-## GUI configuration
+### GUI configuration
+This is really just for me and my preferences.
+
 - Additional themes (e.g. Fitts) can be installed in `~/.themes`
 - In file browser, go to Edit &rarr; Preferences and set default view to list view.
 - To remove unwanted bookmarks in the file browser, delete the subfolders from the home folder (e.g. "Movies") and then run `xdg-user-dirs-update`.
@@ -74,7 +123,7 @@ sudo dnf install -y vlc
 	- Move window one workspace up: Disabled
 	- Move window one workspace down: Disabled
 
-## Setup folder for custom fonts
+### Setup folder for custom fonts
 
 ```zsh
 mkdir /home/b/.local/share/fonts
@@ -82,7 +131,7 @@ mkdir /home/b/.local/share/fonts
 fc-cache -fv
 ```
 
-## Replicate pbcopy
+### Replicate pbcopy
 
 Adapted from https://ostechnix.com/how-to-use-pbcopy-and-pbpaste-commands-on-linux/
 
@@ -95,7 +144,7 @@ Adapted from https://ostechnix.com/how-to-use-pbcopy-and-pbpaste-commands-on-lin
 	```
 4. Now you can use `pbcopy`! For example, grabbing the current directory onto the clipboard: `pwd | tr -d '\n' | pbcopy`
 
-## Passwordsafe3 support with Pasaffe
+### Passwordsafe3 support with Pasaffe
 
 Adapted from https://answers.launchpad.net/pasaffe/+question/658239
 
@@ -108,9 +157,9 @@ Adapted from https://answers.launchpad.net/pasaffe/+question/658239
 7. `python setup.py bdist_rpm`
 8. `find dist/*.rpm`
 9. `sudo dnf install -y dist/pasaffe-0.57-1.noarch.rpm
-10. If needed, symlink existing pwsafe3 database to `~/.local/share/pasaffe/pasaffe.psafe3`
+10. If needed, symlink an existing psafe3 database to `~/.local/share/pasaffe/pasaffe.psafe3`
 
-## Enable Swapfile and Hibernation
+### Enable Swapfile and Hibernation
 
 1. Complete these steps from http://ctrl.blog/entry/fedora-hibernate.html which are required:
 
@@ -195,10 +244,11 @@ Adapted from https://answers.launchpad.net/pasaffe/+question/658239
 	- (Part 5) Reboot and then try to hibernate using `systemctl hibernate`
 
 
-## Shellstarterkit equivalent
+### Shellstarterkit equivalent
 TODO: send this to https://github.com/blairw/shellstarterkit/
 
-- Install the Cascadia font (`sudo dnf install -y cascadia-fonts-all`) set it in VSC
+- Install the Cascadia font (`sudo dnf install -y cascadia-fonts-all`) set it in VSC (search for "terminal font" in the preferences)
+
 
 - Some Terminal commands:
 ```zsh
