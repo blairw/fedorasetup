@@ -9,7 +9,7 @@
   * [Rationale](#rationale)
     + [Rationale for Linux as a workstation environment](#rationale-for-linux-as-a-workstation-environment)
     + [Rationale for Fedora Linux in particular](#rationale-for-fedora-linux-in-particular)
-  * [Setup tasks for Blair's workstation environment](#setup-tasks-for-blair-s-workstation-environment)
+  * [Setup tasks for my workstation environment](#setup-tasks-for-my-workstation-environment)
     + [Get the latest updates and get useful packages](#get-the-latest-updates-and-get-useful-packages)
     + [Git / GitHub credentials saver](#git---github-credentials-saver)
     + [Install some software manually (Dropbox etc)](#install-some-software-manually--dropbox-etc-)
@@ -23,7 +23,6 @@
     + [Shellstarterkit equivalent](#shellstarterkit-equivalent)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 
 <!-- TOC ENDS HERE -->
 
@@ -61,7 +60,7 @@ Having tried, at various stages over the past decade, a range of distros (incl. 
 
 ---
 
-## Setup tasks for Blair's workstation environment
+## Setup tasks for my workstation environment
 
 Since this document is mostly for my own records, unless you are me, not everything below is certainly relevant for you. But maybe some of it is / maybe this might help someone else trying to get something working? (:
 
