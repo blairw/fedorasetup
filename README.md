@@ -1,5 +1,26 @@
 # Fedora Linux setup notes by Blair
 
+## Contents
+
+- [Fedora Linux setup notes by Blair](#fedora-linux-setup-notes-by-blair)
+  * [Contents](#contents)
+  * [Basic Information](#basic-information)
+  * [Get the latest updates and get useful packages](#get-the-latest-updates-and-get-useful-packages)
+  * [Git / GitHub credential saver](#git---github-credential-saver)
+  * [Install some software manually (Dropbox, NetBeans, Edge, VSC, Teams)](#install-some-software-manually--dropbox--netbeans--edge--vsc--teams-)
+  * [Install Spotify via Flatpak](#install-spotify-via-flatpak)
+  * [Enable rpmfusion for Handbrake, VLC](#enable-rpmfusion-for-handbrake--vlc)
+  * [GUI configuration](#gui-configuration)
+  * [Setup folder for custom fonts](#setup-folder-for-custom-fonts)
+  * [Replicate pbcopy](#replicate-pbcopy)
+  * [Passwordsafe3 support with Pasaffe](#passwordsafe3-support-with-pasaffe)
+  * [Enable Swapfile and Hibernation](#enable-swapfile-and-hibernation)
+  * [Shellstarterkit equivalent](#shellstarterkit-equivalent)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
+
 ## Basic Information
 - Last updated for Fedora 33
 
