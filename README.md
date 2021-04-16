@@ -6,7 +6,7 @@
 ## Get the latest updates and get useful packages
 ```zsh
 sudo dnf upgrade -y
-sudo dnf install -y screen gnome-do audacity gimp redshift geany geany-themes git aria2
+sudo dnf install -y screen gnome-do audacity gimp redshift geany geany-themes git aria2 MyPasswordSafe
 ```
 Some notes:
 - Use command-line `redshift` because `redshift-gtk` doesn't seem to do what it is supposed to (no tray icon, runs in background)
@@ -47,6 +47,11 @@ sudo dnf install -y vlc
 - Additional themes (e.g. Fitts) can be installed in `~/.themes`
 - In file browser, go to Edit &rarr; Preferences and set default view to list view.
 - To remove unwanted bookmarks in the file browser, delete the subfolders from the home folder (e.g. "Movies") and then run `xdg-user-dirs-update`.
+- Keyboard shortcuts:
+	- Run a terminal: <kbd>Win</kbd>+<kbd>T</kbd>
+	- Home folder: <kbd>Win</kbd>+<kbd>E</kbd>
+	- Move window one workspace up: Disabled
+	- Move window one workspace down: Disabled
 
 ## Setup folder for custom fonts
 
@@ -55,6 +60,34 @@ mkdir /home/b/.local/share/fonts
 # then copy whatever fonts you want
 fc-cache -fv
 ```
+
+## Replicate pbcopy
+
+Adapted from https://ostechnix.com/how-to-use-pbcopy-and-pbpaste-commands-on-linux/
+
+1. `sudo dnf install -y xclip xsel`
+2. `code ~/.zshrc` (unless you are using bash, in which case it's `~/.bashrc`)
+3. Aliases...
+	```
+	alias pbcopy='xclip -selection clipboard'
+	alias pbpaste='xclip -selection clipboard -o'
+	```
+4. Now you can use `pbcopy`! For example, grabbing the current directory onto the clipboard: `pwd | tr -d '\n' | pbcopy`
+
+## Passwordsafe3 support with Pasaffe
+
+Adapted from https://answers.launchpad.net/pasaffe/+question/658239
+
+1. Download latest tar.gz from https://launchpad.net/pasaffe
+2. `sudo dnf install -y rpmdevtools python3-distutils-extra`
+3. `pip3 install unidecode`
+4. Navigate to the folder where the latest tar.gz was downloaded
+5. `tar xvzf pasaffe-0.57.tar.gz` (replace with equivalent filename)
+6. Navigate to extracted folder
+7. `python setup.py bdist_rpm`
+8. `find dist/*.rpm`
+9. `sudo dnf install -y dist/pasaffe-0.57-1.noarch.rpm
+10. If needed, symlink existing pwsafe3 database to `~/.local/share/pasaffe/pasaffe.psafe3`
 
 ## Enable Swapfile and Hibernation
 
