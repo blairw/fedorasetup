@@ -15,12 +15,18 @@
     + [Install some software manually (Dropbox etc)](#install-some-software-manually--dropbox-etc-)
     + [Install Spotify via Flatpak](#install-spotify-via-flatpak)
     + [Enable rpmfusion for Handbrake and VLC](#enable-rpmfusion-for-handbrake-and-vlc)
+    + [VirtualBox](#virtualbox)
     + [GUI configuration](#gui-configuration)
     + [Setup folder for custom fonts](#setup-folder-for-custom-fonts)
     + [Replicate pbcopy](#replicate-pbcopy)
     + [Passwordsafe3 support with Pasaffe](#passwordsafe3-support-with-pasaffe)
+    + [Connect to a Samba (SMB) network share](#connect-to-a-samba--smb--network-share)
     + [Enable Swapfile and Hibernation](#enable-swapfile-and-hibernation)
     + [Shellstarterkit equivalent](#shellstarterkit-equivalent)
+  * [Ongoing administrative tasks](#ongoing-administrative-tasks)
+    + [Usual updates](#usual-updates)
+    + [If you want to try a new version of the kernel](#if-you-want-to-try-a-new-version-of-the-kernel)
+    + [If you ever need to install a specific version of the Linux kernel](#if-you-ever-need-to-install-a-specific-version-of-the-linux-kernel)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
@@ -66,13 +72,36 @@ Since this document is mostly for my own records, unless you are me, not everyth
 
 ### Get the latest updates and get useful packages
 ```zsh
-sudo dnf upgrade -y
-sudo dnf install -y screen gnome-do git aria2 \
+sudo dnf update -y --exclude=kernel*
+sudo dnf install -y screen cheese gnome-do git aria2 \
 	geany geany-themes \
 	audacity gimp redshift MyPasswordSafe
 ```
 Some notes:
 - Use command-line `redshift` because `redshift-gtk` doesn't seem to do what it is supposed to (no tray icon, runs in background)
+- Added `--exclude=kernel*` as per https://ask.fedoraproject.org/t/howto-prevent-kernel-updates/3001/2 because I had a situation in which `kernel` was available at `5.11.13-200` but `kernel-headers` was only available at `5.11.11-200` which prevented me from patching the kernel for VirtualBox.
+
+	```
+	❯ sudo dnf list installed | grep kernel
+	abrt-addon-kerneloops.x86_64                2.14.5-1.fc33                          @updates                             
+	kernel.x86_64                               5.8.15-301.fc33                        @anaconda                            
+	kernel.x86_64                               5.11.12-200.fc33                       @updates                             
+	kernel.x86_64                               5.11.13-200.fc33                       @updates                             
+	kernel-core.x86_64                          5.8.15-301.fc33                        @anaconda                            
+	kernel-core.x86_64                          5.11.12-200.fc33                       @updates                             
+	kernel-core.x86_64                          5.11.13-200.fc33                       @updates                             
+	kernel-devel.x86_64                         5.11.13-200.fc33                       @updates                             
+	kernel-headers.x86_64                       5.11.11-200.fc33                       @updates                             
+	kernel-modules.x86_64                       5.8.15-301.fc33                        @anaconda                            
+	kernel-modules.x86_64                       5.11.12-200.fc33                       @updates                             
+	kernel-modules.x86_64                       5.11.13-200.fc33                       @updates                             
+	kernel-modules-extra.x86_64                 5.8.15-301.fc33                        @anaconda                            
+	kernel-modules-extra.x86_64                 5.11.12-200.fc33                       @updates                             
+	kernel-modules-extra.x86_64                 5.11.13-200.fc33                       @updates                             
+	kernel-srpm-macros.noarch                   1.0-3.fc33                             @fedora                              
+	kernel-tools-libs.x86_64                    5.11.11-200.fc33                       @updates                             
+	libreport-plugin-kerneloops.x86_64          2.14.0-15.fc33                         @updates
+	```
 
 ### Git / GitHub credentials saver
 As per https://unix.stackexchange.com/questions/379272/storing-username-and-password-in-git
@@ -89,6 +118,10 @@ Do Dropbox first so that it can start fetching your files in the background.
 - https://linuxhint.com/install-microsoft-teams-fedora/
 - https://slack.com/intl/en-au/downloads/instructions/fedora
 - https://github.com/ramboxapp/community-edition/releases/
+- https://zoom.us/download?os=linux
+- https://copr.fedorainfracloud.org/coprs/dusansimic/caprine/
+
+If you get `"There were problems setting up VirtualBox. To re-start the set-up process, run /sbin/vboxconfig"`, try https://forums.virtualbox.org/viewtopic.php?f=7&t=101860#p496753.
 
 ### Install Spotify via Flatpak
 As per https://docs.fedoraproject.org/en-US/quick-docs/installing-spotify/ - I am using the Flatpak option because I found that `lpf-spotify-client` was not building on my machine.
@@ -109,6 +142,9 @@ su -c 'dnf install https://download0.rpmfusion.org/free/fedora/rpmfusion-free-re
 sudo dnf install -y handbrake handbrake-gui
 sudo dnf install -y vlc
 ```
+
+### VirtualBox
+Just install through `sudo dnf install VirtualBox` once you have rpmfusion set up as per above. Then when it is done, run `sudo /sbin/vboxconfig`.
 
 ### GUI configuration
 This is really just for me and my preferences.
@@ -155,8 +191,35 @@ Adapted from https://answers.launchpad.net/pasaffe/+question/658239
 6. Navigate to extracted folder
 7. `python setup.py bdist_rpm`
 8. `find dist/*.rpm`
-9. `sudo dnf install -y dist/pasaffe-0.57-1.noarch.rpm
+9. `sudo dnf install -y dist/pasaffe-0.57-1.noarch.rpm`
 10. If needed, symlink an existing psafe3 database to `~/.local/share/pasaffe/pasaffe.psafe3`
+
+### Connect to a Samba (SMB) network share
+First, `mkdir /media/myshare1`, then:
+
+Add to `/etc/fstab`:
+
+```
+//myserver/myshare1 /media/myshare1 cifs credentials=/home/myusername/myshare-credentials.txt,noauto,user 0 0
+```
+
+(I found that I had to specify `/home/myusername/` instead of `~/`)
+
+Then as per https://superuser.com/questions/1444883/user-cifs-mounts-not-supported-fedora-30, we need to set the suid bit:
+
+```zsh
+sudo chmod u+s /bin/mount
+sudo chmod u+s /bin/umount
+sudo chmod u+s /usr/sbin/mount.cifs
+```
+
+Then can mount like:
+
+```zsh
+mount //myserver/myshare1
+```
+
+To check the properties of the Samba share, run `mount -t cifs`.
 
 ### Enable Swapfile and Hibernation
 
@@ -269,4 +332,26 @@ In `~/.zshrc`:
 - `ZSH_THEME="powerlevel10k/powerlevel10k"`
 - `plugins=(git virtualenv)`
 - End of file: `[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh`
+
+## Ongoing administrative tasks
+
+### Usual updates
+
+```zsh
+sudo dnf update -y --exclude=kernel*
 ```
+
+### If you want to try a new version of the kernel
+
+- Ensure that all required packages, including `kernel-headers`, are available for that new version
+- Ensure that the new version still works with VirtualBox
+
+### If you ever need to install a specific version of the Linux kernel
+
+As per https://unix.stackexchange.com/questions/475128/is-there-a-quick-way-to-install-earlier-fedora-kernel-packages and https://fedoramagazine.org/install-kernel-koji/
+
+1. Find the specific version of `kernel` at https://koji.fedoraproject.org/koji/packageinfo?packageID=8 (if needed, find the corresponding version of `kernel-headers` at https://koji.fedoraproject.org/koji/packageinfo?packageID=27325)
+
+2. Download all required rpms (to clarify which ones you need, run `sudo dnf list installed | grep kernel`, and anything listed there that is also listed on the koji page, make sure you get from the koji page - but it is ok if some things listed by the dnf output are not on the koji page, they are provided elsewhere - you may wish to find them if necessary)
+
+3. In Terminal, navigate to the rpms and run `sudo dnf install ./kernel*`
