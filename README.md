@@ -10,10 +10,12 @@
     + [Rationale for Linux as a workstation environment](#rationale-for-linux-as-a-workstation-environment)
     + [Rationale for Fedora Linux in particular](#rationale-for-fedora-linux-in-particular)
   * [Setup tasks for my workstation environment](#setup-tasks-for-my-workstation-environment)
+    + [Switch to zsh](#switch-to-zsh)
     + [Get the latest updates and get useful packages](#get-the-latest-updates-and-get-useful-packages)
     + [Git / GitHub credentials saver](#git---github-credentials-saver)
     + [Install some software manually (Dropbox etc)](#install-some-software-manually--dropbox-etc-)
     + [Install Spotify via Flatpak](#install-spotify-via-flatpak)
+    + [Wine](#wine)
     + [Enable rpmfusion for Handbrake and VLC](#enable-rpmfusion-for-handbrake-and-vlc)
     + [VirtualBox](#virtualbox)
     + [GUI configuration](#gui-configuration)
@@ -29,6 +31,7 @@
     + [If you ever need to install a specific version of the Linux kernel](#if-you-ever-need-to-install-a-specific-version-of-the-linux-kernel)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 <!-- TOC ENDS HERE -->
 
@@ -70,10 +73,27 @@ Having tried, at various stages over the past decade, a range of distros (incl. 
 
 Since this document is mostly for my own records, unless you are me, not everything below is certainly relevant for you. But maybe some of it is / maybe this might help someone else trying to get something working? (:
 
-### Get the latest updates and get useful packages
+### Switch to zsh
+
+```bash
+sudo dnf install -y zsh
+touch ~/.zshrc
+chsh -s /bin/zsh
+```
+
+Then logout and log back in, then setup oh-my-zsh:
+
 ```zsh
-sudo dnf update -y --exclude=kernel*
-sudo dnf install -y screen cheese gnome-do git aria2 \
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+### Get the latest updates and get useful packages
+
+Unfortunately `noglob` is required for zsh as per https://github.com/ohmyzsh/ohmyzsh/issues/31.
+
+```zsh
+noglob sudo dnf update -y --exclude=kernel*
+noglob sudo dnf install -y screen cheese gnome-do git aria2 \
 	geany geany-themes \
 	audacity gimp redshift MyPasswordSafe
 ```
@@ -121,8 +141,6 @@ Do Dropbox first so that it can start fetching your files in the background.
 - https://zoom.us/download?os=linux
 - https://copr.fedorainfracloud.org/coprs/dusansimic/caprine/
 
-If you get `"There were problems setting up VirtualBox. To re-start the set-up process, run /sbin/vboxconfig"`, try https://forums.virtualbox.org/viewtopic.php?f=7&t=101860#p496753.
-
 ### Install Spotify via Flatpak
 As per https://docs.fedoraproject.org/en-US/quick-docs/installing-spotify/ - I am using the Flatpak option because I found that `lpf-spotify-client` was not building on my machine.
 
@@ -130,6 +148,29 @@ As per https://docs.fedoraproject.org/en-US/quick-docs/installing-spotify/ - I a
 sudo dnf install -y flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 sudo flatpak install flathub com.spotify.Client
+```
+
+### Wine
+
+Instructions adapted from https://computingforgeeks.com/how-to-install-wine-on-fedora/.
+
+```zsh
+sudo dnf -y install dnf-plugins-core
+sudo dnf config-manager --add-repo https://dl.winehq.org/wine-builds/fedora/33/winehq.repo
+sudo dnf -y install winehq-stable
+```
+
+After the install:
+
+- `wine --version` to confirm the version
+- `winecfg` to configure wine.
+
+Then get winetricks:
+
+```zsh
+wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+chmod +x winetricks
+sudo mv winetricks /usr/local/bin/
 ```
 
 ### Enable rpmfusion for Handbrake and VLC
@@ -311,18 +352,9 @@ TODO: send this to https://github.com/blairw/shellstarterkit/
 
 - Install the Cascadia font (`sudo dnf install -y cascadia-fonts-all`) set it in VSC (search for "terminal font" in the preferences)
 
-
-- Some Terminal commands:
-```zsh
-sudo dnf install -y zsh
-touch ~/.zshrc
-chsh -s /bin/zsh
-```
-
-- Then log out and log back in, then:
+- Then:
 
 ```zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 curl https://raw.githubusercontent.com/blairw/shellstarterkit/master/resources/dot-p10k.zsh -o ~/.p10k.zsh
 code ~/.zshrc
@@ -338,7 +370,7 @@ In `~/.zshrc`:
 ### Usual updates
 
 ```zsh
-sudo dnf update -y --exclude=kernel*
+noglob sudo dnf update -y --exclude=kernel*
 ```
 
 ### If you want to try a new version of the kernel
