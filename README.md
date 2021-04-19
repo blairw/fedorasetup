@@ -73,6 +73,8 @@ Having tried, at various stages over the past decade, a range of distros (incl. 
 
 Since this document is mostly for my own records, unless you are me, not everything below is certainly relevant for you. But maybe some of it is / maybe this might help someone else trying to get something working? (:
 
+See also: https://mutschler.eu/linux/install-guides/fedora-post-install/ (similar endeavour, also by a Business School academic who likes looking into Linux!)
+
 ### Switch to zsh
 
 ```bash
@@ -93,7 +95,7 @@ Unfortunately `noglob` is required for zsh as per https://github.com/ohmyzsh/ohm
 
 ```zsh
 noglob sudo dnf update -y --exclude=kernel*
-noglob sudo dnf install -y screen cheese gnome-do git aria2 \
+noglob sudo dnf install -y htop screen cheese gnome-do git aria2 \
 	geany geany-themes \
 	audacity gimp redshift MyPasswordSafe
 ```
@@ -173,7 +175,7 @@ chmod +x winetricks
 sudo mv winetricks /usr/local/bin/
 ```
 
-### Enable rpmfusion for Handbrake and VLC
+### Enable rpmfusion for Handbrake and OBS and VLC
 I know a lot of people who favour Linux for _libre_ rather than _gratis_ would not approve of rpmfusion but I'm just being pragmatic: I need Handbrake and VLC.
 
 Based on https://www.fosslinux.com/969/install-handbrake-fedora-22.htm
@@ -181,6 +183,7 @@ Based on https://www.fosslinux.com/969/install-handbrake-fedora-22.htm
 ```zsh
 su -c 'dnf install https://download0.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download0.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm'
 sudo dnf install -y handbrake handbrake-gui
+sudo dnf install -y obs-studio
 sudo dnf install -y vlc
 ```
 
