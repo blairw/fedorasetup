@@ -95,7 +95,7 @@ Unfortunately `noglob` is required for zsh as per https://github.com/ohmyzsh/ohm
 
 ```zsh
 noglob sudo dnf update -y --exclude=kernel*
-noglob sudo dnf install -y htop screen cheese gnome-do git aria2 \
+noglob sudo dnf install -y htop screen cheese synapse git aria2 \
 	geany geany-themes \
 	audacity gimp redshift MyPasswordSafe
 ```
@@ -143,6 +143,14 @@ Do Dropbox first so that it can start fetching your files in the background.
 - https://zoom.us/download?os=linux
 - https://copr.fedorainfracloud.org/coprs/dusansimic/caprine/
 
+NOTE: For Dropbox you will need to configure firewall to enable LAN sync properly.
+
+```zsh
+sudo firewall-cmd --get-active-zones # get zone name e.g. `public`
+sudo firewall-cmd --get-services # confirm that dropbox-lansync is available
+sudo firewall-cmd --zone=public --add-service=dropbox-lansync --permanent
+```
+
 ### Install Spotify via Flatpak
 As per https://docs.fedoraproject.org/en-US/quick-docs/installing-spotify/ - I am using the Flatpak option because I found that `lpf-spotify-client` was not building on my machine.
 
@@ -151,6 +159,10 @@ sudo dnf install -y flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 sudo flatpak install flathub com.spotify.Client
 ```
+
+### FSearch
+
+https://www.fossmint.com/fsearch-search-utility-for-linux/
 
 ### Wine
 
