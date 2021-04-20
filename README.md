@@ -128,7 +128,10 @@ Some notes:
 ### Git / GitHub credentials saver
 As per https://unix.stackexchange.com/questions/379272/storing-username-and-password-in-git
 ```zsh
-git config credential.helper store
+git config --global credential.helper store
+
+# to remove
+git config --global --unset credential.helper
 ```
 
 ### Install some software manually (Dropbox etc)
