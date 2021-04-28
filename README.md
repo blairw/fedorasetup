@@ -99,12 +99,13 @@ Unfortunately `noglob` is required for zsh as per https://github.com/ohmyzsh/ohm
 
 ```zsh
 noglob sudo dnf update -y --exclude=kernel*
-noglob sudo dnf install -y htop screen cheese synapse git aria2 \
+noglob sudo dnf install -y htop screen aria2 \
 	geany geany-themes \
-	audacity gimp redshift MyPasswordSafe
+	audacity gimp
 ```
 Some notes:
-- Use command-line `redshift` because `redshift-gtk` doesn't seem to do what it is supposed to (no tray icon, runs in background)
+- If using MATE, get command-line `redshift` because `redshift-gtk` doesn't seem to do what it is supposed to (no tray icon, runs in background). Not required for GNOME which has a night mode built in.
+- If using MATE, get `synapse` as a Spotlight kind of app searcher. Not required for GNOME which has the Activities mode.
 - Added `--exclude=kernel*` as per https://ask.fedoraproject.org/t/howto-prevent-kernel-updates/3001/2 because I had a situation in which `kernel` was available at `5.11.13-200` but `kernel-headers` was only available at `5.11.11-200` which prevented me from patching the kernel for VirtualBox.
 
 	```
