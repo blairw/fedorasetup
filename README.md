@@ -75,6 +75,10 @@ Since this document is mostly for my own records, unless you are me, not everyth
 
 See also: https://mutschler.eu/linux/install-guides/fedora-post-install/ (similar endeavour, also by a Business School academic who likes looking into Linux!)
 
+### Fedora 34, GNOME 40
+
+- Settings &rarr; About &rarr; Device Name
+
 ### Switch to zsh
 
 ```bash
