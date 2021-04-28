@@ -78,6 +78,7 @@ See also: https://mutschler.eu/linux/install-guides/fedora-post-install/ (simila
 ### Fedora 34, GNOME 40
 
 - Settings &rarr; About &rarr; Device Name
+- https://www.debugpoint.com/2021/04/gnome-40-extensions/
 
 ### Switch to zsh
 
