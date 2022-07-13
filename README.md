@@ -105,7 +105,7 @@ Note that `noglob` is required for zsh as per https://github.com/ohmyzsh/ohmyzsh
 noglob sudo dnf update -y --exclude=kernel*
 
 # Common install for workstation + server:
-noglob sudo dnf install -y screen aria2
+noglob sudo dnf install -y screen aria2 nano
 
 # If this machine is a workstation:
 noglob sudo dnf install -y audacity geany geany-themes gimp
