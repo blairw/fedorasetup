@@ -101,16 +101,13 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 Note that `noglob` is required for zsh as per https://github.com/ohmyzsh/ohmyzsh/issues/31.
 
 ```zsh
-# If you intend to run this machine as a VirtualBox host
+# Update everythinbg except the kernel (be careful with kernel upgrades!):
 noglob sudo dnf update -y --exclude=kernel*
 
-# If this machine is not a VirtualBox host (incl. if this machine is a VirtualBox client)
-noglob sudo dnf update -y
-
-# Common install for workstation + server
+# Common install for workstation + server:
 noglob sudo dnf install -y screen aria2
 
-# If this machine is a workstation
+# If this machine is a workstation:
 noglob sudo dnf install -y audacity geany geany-themes gimp
 ```
 
@@ -141,6 +138,50 @@ Some notes:
 	libreport-plugin-kerneloops.x86_64          2.14.0-15.fc33                         @updates
 	```
 
+### Setup Dropbox
+
+Get this started first so that it can start fetching your files in the background.
+
+For Workstation: Get the rpm from https://www.dropbox.com/install-linux
+
+For Server:
+
+```zsh
+# Install
+cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+
+# Get Dropbox py
+mkdir -p ~/00blair/dropboxpy
+wget -O ~/00blair/dropboxpy/dropbox.py https://www.dropbox.com/download\?dl\=packages/dropbox.py
+
+# Run
+~/.dropbox-dist/dropboxd
+
+# Setup exclusions
+~/00blair/dropboxpy/dropbox.py exclude add ~/Dropbox/blair-extras2
+~/00blair/dropboxpy/dropbox.py exclude add ~/Dropbox/blair-extras3
+~/00blair/dropboxpy/dropbox.py exclude add ~/Dropbox/blair-extras4
+```
+
+For both Workstation and Server, you will need to configure firewall to enable LAN sync properly:
+
+```zsh
+# get zone name e.g. `public`, `FedoraServer`
+sudo firewall-cmd --get-active-zones
+
+# confirm that dropbox-lansync is available
+sudo firewall-cmd --get-services | grep dropbox
+
+# enable, zone=public
+sudo firewall-cmd --zone=public --add-service=dropbox-lansync --permanent
+
+# enable, zone=FedoraServer
+sudo firewall-cmd --zone=FedoraServer --add-service=dropbox-lansync --permanent
+
+# reload
+sudo firewall-cmd --reload
+```
+
 ### Git / GitHub credentials saver
 As per https://unix.stackexchange.com/questions/379272/storing-username-and-password-in-git
 ```zsh
@@ -156,8 +197,6 @@ https://superuser.com/questions/93924/monaco-font-not-antialiased-in-some-gtk-ap
 
 
 ### Install some software manually (Dropbox etc)
-Do Dropbox first so that it can start fetching your files in the background.
-- https://www.dropbox.com/install-linux
 - https://computingforgeeks.com/how-to-install-netbeans-ide-on-fedora/
 - https://www.microsoftedgeinsider.com/en-us/download?platform=linux-rpm
 - https://code.visualstudio.com/docs/setup/linux
@@ -167,13 +206,7 @@ Do Dropbox first so that it can start fetching your files in the background.
 - https://zoom.us/download?os=linux
 - https://copr.fedorainfracloud.org/coprs/dusansimic/caprine/
 
-NOTE: For Dropbox you will need to configure firewall to enable LAN sync properly.
 
-```zsh
-sudo firewall-cmd --get-active-zones # get zone name e.g. `public`
-sudo firewall-cmd --get-services # confirm that dropbox-lansync is available
-sudo firewall-cmd --zone=public --add-service=dropbox-lansync --permanent
-```
 
 ### Install Spotify via Flatpak
 As per https://docs.fedoraproject.org/en-US/quick-docs/installing-spotify/ - I am using the Flatpak option because I found that `lpf-spotify-client` was not building on my machine.
