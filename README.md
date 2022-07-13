@@ -1,4 +1,4 @@
-# Fedora Linux workstation setup notes by Blair
+# Fedora Linux setup notes by Blair
 
 ## Contents
 
@@ -69,7 +69,7 @@ Having tried, at various stages over the past decade, a range of distros (incl. 
 
 ---
 
-## Setup tasks for my workstation environment
+## Setup tasks
 
 Since this document is mostly for my own records, unless you are me, not everything below is certainly relevant for you. But maybe some of it is / maybe this might help someone else trying to get something working? (:
 
@@ -82,8 +82,10 @@ See also: https://mutschler.eu/linux/install-guides/fedora-post-install/ (simila
 
 ### Switch to zsh
 
+(Git is needed for oh-my-zsh)
+
 ```bash
-sudo dnf install -y zsh
+sudo dnf install -y git zsh
 touch ~/.zshrc
 chsh -s /bin/zsh
 ```
@@ -96,14 +98,22 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 ### Get the latest updates and get useful packages
 
-Unfortunately `noglob` is required for zsh as per https://github.com/ohmyzsh/ohmyzsh/issues/31.
+Note that `noglob` is required for zsh as per https://github.com/ohmyzsh/ohmyzsh/issues/31.
 
 ```zsh
+# If you intend to run this machine as a VirtualBox host
 noglob sudo dnf update -y --exclude=kernel*
-noglob sudo dnf install -y htop screen aria2 \
-	geany geany-themes \
-	audacity gimp
+
+# If this machine is not a VirtualBox host (incl. if this machine is a VirtualBox client)
+noglob sudo dnf update -y
+
+# Common install for workstation + server
+noglob sudo dnf install -y screen aria2
+
+# If this machine is a workstation
+noglob sudo dnf install -y audacity geany geany-themes gimp
 ```
+
 Some notes:
 - If using MATE, get command-line `redshift` because `redshift-gtk` doesn't seem to do what it is supposed to (no tray icon, runs in background). Not required for GNOME which has a night mode built in.
 - If using MATE, get `synapse` as a Spotlight kind of app searcher. Not required for GNOME which has the Activities mode.
@@ -139,6 +149,11 @@ git config --global credential.helper store
 # to remove
 git config --global --unset credential.helper
 ```
+
+### Fix Monaco rendering
+
+https://superuser.com/questions/93924/monaco-font-not-antialiased-in-some-gtk-apps
+
 
 ### Install some software manually (Dropbox etc)
 Do Dropbox first so that it can start fetching your files in the background.
