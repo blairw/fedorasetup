@@ -75,6 +75,10 @@ Since this document is mostly for my own records, unless you are me, not everyth
 
 See also: https://mutschler.eu/linux/install-guides/fedora-post-install/ (similar endeavour, also by a Business School academic who likes looking into Linux!)
 
+### Installing Fedora
+
+- Avoid secure boot if you intend to use VirtualBox - unless you are absolutely sure that it is able to work.
+
 ### Fedora 34, GNOME 40
 
 - Settings &rarr; About &rarr; Device Name
@@ -249,17 +253,19 @@ sudo mv winetricks /usr/local/bin/
 ### Enable rpmfusion for Handbrake and OBS and VLC
 I know a lot of people who favour Linux for _libre_ rather than _gratis_ would not approve of rpmfusion but I'm just being pragmatic: I need Handbrake and VLC.
 
-Based on https://www.fosslinux.com/969/install-handbrake-fedora-22.htm
+First, follow instructions at https://rpmfusion.org/Configuration#Command_Line_Setup_using_rpm
+
+Then:
 
 ```zsh
-su -c 'dnf install https://download0.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download0.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm'
 sudo dnf install -y handbrake handbrake-gui
 sudo dnf install -y obs-studio
 sudo dnf install -y vlc
 ```
 
 ### VirtualBox
-Just install through `sudo dnf install VirtualBox` once you have rpmfusion set up as per above. Then when it is done, run `sudo /sbin/vboxconfig`.
+
+Follow the instructions at https://rpmfusion.org/Howto/VirtualBox
 
 ### GUI configuration
 This is really just for me and my preferences.
@@ -461,3 +467,13 @@ As per https://unix.stackexchange.com/questions/475128/is-there-a-quick-way-to-i
 2. Download all required rpms (to clarify which ones you need, run `sudo dnf list installed | grep kernel`, and anything listed there that is also listed on the koji page, make sure you get from the koji page - but it is ok if some things listed by the dnf output are not on the koji page, they are provided elsewhere - you may wish to find them if necessary)
 
 3. In Terminal, navigate to the rpms and run `sudo dnf install ./kernel*`
+
+4. To remove old kernels, see https://fedingo.com/how-to-remove-unused-kernels-in-rhel-fedora-centos/ - but basically:
+
+```zsh
+# Latest 2 kernels only
+sudo dnf remove $(dnf repoquery --installonly --latest-limit=-2 -q) 
+
+# Latest 1 kernel only
+sudo dnf remove $(dnf repoquery --installonly --latest-limit=-1 -q)
+```
