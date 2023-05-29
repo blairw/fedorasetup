@@ -98,14 +98,16 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 ### Get the latest updates and get useful packages
 
-Note that `noglob` is required for zsh as per https://github.com/ohmyzsh/ohmyzsh/issues/31.
+First, set `fastestmirror=True` in `/etc/dnf/dnf.conf` as per https://discussion.fedoraproject.org/t/how-to-change-default-dnf-server-country/73107/4?u=ankursinha
+
+Next, run the tasks - note that `noglob` is required for zsh as per https://github.com/ohmyzsh/ohmyzsh/issues/31.
 
 ```zsh
-# Update everythinbg except the kernel (be careful with kernel upgrades!):
+# Update everything except the kernel (be careful with kernel upgrades!):
 noglob sudo dnf update -y --exclude=kernel*
 
 # Common install for workstation + server:
-noglob sudo dnf install -y screen aria2 nano
+noglob sudo dnf install -y screen aria2 lolcat nano
 
 # If this machine is a workstation:
 noglob sudo dnf install -y audacity geany geany-themes gimp
