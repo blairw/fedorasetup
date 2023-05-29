@@ -144,6 +144,11 @@ Some notes:
 	libreport-plugin-kerneloops.x86_64          2.14.0-15.fc33                         @updates
 	```
 
+
+### Setup Cockpit
+
+Follow the instructions at https://cockpit-project.org/running
+
 ### Setup Dropbox
 
 Get this started first so that it can start fetching your files in the background.
