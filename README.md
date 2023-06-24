@@ -37,6 +37,23 @@
 
 -----
 
+Misc...
+
+gnome prevent sleep if no one logs in - adapted from https://askubuntu.com/a/1132068
+
+```
+blair@fedoraworkstation ~
+❯ sudo -u gdm dbus-launch gsettings get org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type
+'suspend'
+
+blair@fedoraworkstation ~
+❯ sudo -u gdm dbus-launch gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type "nothing"
+
+blair@fedoraworkstation ~
+❯ sudo -u gdm dbus-launch gsettings get org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type
+'nothing'
+```
+
 ## Rationale
 
 This is mostly written for my own notes so that I remember why I did this.
