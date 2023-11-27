@@ -294,12 +294,25 @@ Add to `/etc/fstab`:
 
 (I found that I had to specify `/home/myusername/` instead of `~/`)
 
+Credentials file formatted like so:
+
+```
+username=blair
+password=mypasswordgoeshere
+```
+
 Then as per https://superuser.com/questions/1444883/user-cifs-mounts-not-supported-fedora-30, we need to set the suid bit:
 
 ```zsh
 sudo chmod u+s /bin/mount
 sudo chmod u+s /bin/umount
 sudo chmod u+s /usr/sbin/mount.cifs
+```
+
+Then need to refresh systemd to use the updated fstab:
+
+```zsh
+sudo systemctl daemon-reload
 ```
 
 Then can mount like:
