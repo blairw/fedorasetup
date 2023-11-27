@@ -193,7 +193,7 @@ sudo flatpak install flathub com.spotify.Client
 
 ### FSearch
 
-https://www.fossmint.com/fsearch-search-utility-for-linux/
+https://copr.fedorainfracloud.org/coprs/cboxdoerfer/fsearch/
 
 ### Wine
 
