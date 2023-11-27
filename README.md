@@ -1,59 +1,5 @@
 # Fedora Linux setup notes by Blair
 
-## Contents
-
-<!-- TOC STARTS HERE -->
-
-- [Fedora Linux workstation setup notes by Blair](#fedora-linux-workstation-setup-notes-by-blair)
-  * [Contents](#contents)
-  * [Rationale](#rationale)
-    + [Rationale for Linux as a workstation environment](#rationale-for-linux-as-a-workstation-environment)
-    + [Rationale for Fedora Linux in particular](#rationale-for-fedora-linux-in-particular)
-  * [Setup tasks for my workstation environment](#setup-tasks-for-my-workstation-environment)
-    + [Switch to zsh](#switch-to-zsh)
-    + [Get the latest updates and get useful packages](#get-the-latest-updates-and-get-useful-packages)
-    + [Git / GitHub credentials saver](#git---github-credentials-saver)
-    + [Install some software manually (Dropbox etc)](#install-some-software-manually--dropbox-etc-)
-    + [Install Spotify via Flatpak](#install-spotify-via-flatpak)
-    + [Wine](#wine)
-    + [Enable rpmfusion for Handbrake and VLC](#enable-rpmfusion-for-handbrake-and-vlc)
-    + [VirtualBox](#virtualbox)
-    + [GUI configuration](#gui-configuration)
-    + [Setup folder for custom fonts](#setup-folder-for-custom-fonts)
-    + [Replicate pbcopy](#replicate-pbcopy)
-    + [Passwordsafe3 support with Pasaffe](#passwordsafe3-support-with-pasaffe)
-    + [Connect to a Samba (SMB) network share](#connect-to-a-samba--smb--network-share)
-    + [Enable Swapfile and Hibernation](#enable-swapfile-and-hibernation)
-    + [Shellstarterkit equivalent](#shellstarterkit-equivalent)
-  * [Ongoing administrative tasks](#ongoing-administrative-tasks)
-    + [Usual updates](#usual-updates)
-    + [If you want to try a new version of the kernel](#if-you-want-to-try-a-new-version-of-the-kernel)
-    + [If you ever need to install a specific version of the Linux kernel](#if-you-ever-need-to-install-a-specific-version-of-the-linux-kernel)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
-
-<!-- TOC ENDS HERE -->
-
------
-
-Misc...
-
-gnome prevent sleep if no one logs in - adapted from https://askubuntu.com/a/1132068
-
-```
-blair@fedoraworkstation ~
-❯ sudo -u gdm dbus-launch gsettings get org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type
-'suspend'
-
-blair@fedoraworkstation ~
-❯ sudo -u gdm dbus-launch gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type "nothing"
-
-blair@fedoraworkstation ~
-❯ sudo -u gdm dbus-launch gsettings get org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type
-'nothing'
-```
-
 ## Rationale
 
 This is mostly written for my own notes so that I remember why I did this.
@@ -327,7 +273,7 @@ Adapted from https://ostechnix.com/how-to-use-pbcopy-and-pbpaste-commands-on-lin
 Adapted from https://answers.launchpad.net/pasaffe/+question/658239
 
 1. Download latest tar.gz from https://launchpad.net/pasaffe
-2. `sudo dnf install -y rpmdevtools python3-distutils-extra`
+2. `sudo dnf install -y rpmdevtools python3-pip python3-distutils-extra`
 3. `pip3 install unidecode`
 4. Navigate to the folder where the latest tar.gz was downloaded
 5. `tar xvzf pasaffe-0.57.tar.gz` (replace with equivalent filename)
@@ -466,6 +412,24 @@ In `~/.zshrc`:
 - `ZSH_THEME="powerlevel10k/powerlevel10k"`
 - `plugins=(git virtualenv)`
 - End of file: `[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh`
+
+
+### GNOME prevent sleep-if-no-one-logs-in
+
+gnome prevent sleep if no one logs in - adapted from https://askubuntu.com/a/1132068
+
+```
+blair@fedoraworkstation ~
+❯ sudo -u gdm dbus-launch gsettings get org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type
+'suspend'
+
+blair@fedoraworkstation ~
+❯ sudo -u gdm dbus-launch gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type "nothing"
+
+blair@fedoraworkstation ~
+❯ sudo -u gdm dbus-launch gsettings get org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type
+'nothing'
+```
 
 ## Ongoing administrative tasks
 
