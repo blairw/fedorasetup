@@ -1,5 +1,7 @@
 # Fedora Linux setup notes by Blair
 
+Update: This document is no longer maintained, for Linux purposes I've switched over to Almalinux. See https://github.com/blairw/almalinuxsetup
+
 ## Rationale
 
 This is mostly written for my own notes so that I remember why I did this.
